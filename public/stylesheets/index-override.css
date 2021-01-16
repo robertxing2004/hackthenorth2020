@@ -1,0 +1,16 @@
+body {
+    background-image: url('/images/meet.up index.png');
+    background-repeat: no-repeat;
+    background-size: 100vw;
+}
+
+h1 {
+    font-weight: lighter;
+    margin-top: 150px;
+    margin-bottom: 25px;
+}
+
+p {
+    font-size: 50px;
+    font-weight: lighter;
+}

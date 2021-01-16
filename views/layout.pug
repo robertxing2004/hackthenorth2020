@@ -2,6 +2,18 @@ doctype html
 html
   head
     title= title
+    link(rel="preconnect" href="https://fonts.gstatic.com")
+    link(href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    block scripts
   body
-    block content
+    nav
+      ul#navbar
+        li
+          a(href='/groups') my groups
+        li
+          a(href='/explore') explore
+        li
+          a(href='/') home
+    .content
+      block content
