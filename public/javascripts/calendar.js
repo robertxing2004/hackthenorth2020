@@ -1,0 +1,24 @@
+function addOne(date) {
+    let n = new Date(date);
+    n.setDate(n.getDate() + 1);
+    return n;
+}
+
+function loadCalendarAvailabilities(start, available, useravailable, num, eventId) {
+    let day = new Date(start);
+    let table = document.getElementById('calendar').getElementsByTagName('tbody')[0];
+    let row = 0, col = day.getDay();
+    for (let i = 0; i < 31; ++i) {
+        if (col == 7) {col = 0; ++row;}
+        let td = table.rows[row].cells[col];
+        td.innerHTML = day.getDate();
+        if (i < 7) {
+            td.setAttribute('onclick', 'toggleAvailability(' + eventId + ',' + i +')');
+            td.setAttribute('data-percentage', Math.round(available[i]*100/num));
+            if (useravailable[i] > 0) td.classList.add('userselected');
+            td.classList.add('clickable');
+        }
+        day = addOne(day);
+        ++col;
+    }
+}

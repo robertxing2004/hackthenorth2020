@@ -41,3 +41,11 @@ async function getAvailabilities(eventId) {
     console.log(res);
     return res;
 }
+
+function getUserAvailabilities(availabilities, userid) {
+    let useravailable = [0, 0, 0, 0, 0, 0, 0];
+    for (let a of availabilities) {
+        if (a.userid == userid) useravailable[a.delta] = 1;
+    }
+    return useravailable;
+}
