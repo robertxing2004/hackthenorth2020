@@ -16,8 +16,8 @@ var config = {
 var pool = new Pool(config);
 /*pool.connect(async (err, client, done) => {
     if (err) throw err;
-    var e = await client.query('SELECT * FROM test');
-    console.log(e);
+    var e = await client.query('SELECT * FROM test;');
+    console.log(e.rows);
     done();
     process.exit();
 });*/
