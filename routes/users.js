@@ -70,7 +70,7 @@ router.post('/creategroup', async function(req, res, next) {
         [req.session.userid, req.body.groupname] //note this
         );
       if (query.rowCount > 0) throw {message: "Group with this name already exists!"};
-      query = (await client.query('INSERT INTO groups(name, num) VALUES($1) RETURNING *;', [req.body.groupname, 1])).rows[0];
+      query = (await client.query('INSERT INTO groups(name, num) VALUES($1, 1) RETURNING *;', [req.body.groupname])).rows[0];
       await client.query(
         'INSERT INTO group_user(groupid, userid, groupname) VALUES($1, $2, $3)',
         [query.id, req.session.userid, query.name]
