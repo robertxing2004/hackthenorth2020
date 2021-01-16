@@ -176,13 +176,13 @@ router.get('/toggleavailability', async function(req, res, next) {
     try {
       let client = await pool.connect();
       let query = await client.query(
-        'SELECT * FROM availabilities WHERE userid=$1 AND eventid=$2;',
-        [req.session.userid, req.body.eventid] // note this
+        'SELECT * FROM availabilities WHERE userid=$1 AND eventid=$2 AND delta=$3;',
+        [req.session.userid, req.body.eventid, req.body.delta] // note this
         );
       if (query.rowCount > 0) {
         await client.query(
-          'DELETE FROM availabilities WHERE userid=$1 AND eventid=$2;',
-          [req.session.userid, req.body.eventid]
+          'DELETE FROM availabilities WHERE userid=$1 AND eventid=$2 AND delta=$3;',
+          [req.session.userid, req.body.eventid, req.body.delta]
           );
         res.send({message: "Marked day as available!"});
       }
@@ -208,13 +208,13 @@ router.get('/testtoggleavailability', async function(req, res, next) {
     try {
       let client = await pool.connect();
       let query = await client.query(
-        'SELECT * FROM availabilities WHERE userid=$1 AND eventid=$2;',
-        [req.session.userid, 625052230736553745] // note this
+        'SELECT * FROM availabilities WHERE userid=$1 AND eventid=$2 AND delta=$3;',
+        [req.session.userid, 625052230736553745, 3] // note this
         );
       if (query.rowCount > 0) {
         await client.query(
-          'DELETE FROM availabilities WHERE userid=$1 AND eventid=$2;',
-          [req.session.userid, 625052230736553745]
+          'DELETE FROM availabilities WHERE userid=$1 AND eventid=$2 AND delta=$3;',
+          [req.session.userid, 625052230736553745, 3]
           );
         res.send({message: "Marked day as unavailable!"});
       }
