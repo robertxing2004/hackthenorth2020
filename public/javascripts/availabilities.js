@@ -6,3 +6,21 @@ function checkAvailability(availabilities) {
     return available;
 }
 
+async function toggleAvailability(eventId, delta) {
+    let res = await (await fetch(
+        '/toggleavailability',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventid: eventId,
+                delta: delta
+            })
+        }
+    )).json();
+    console.log(res.message);
+    alert(res.message);
+    location.reload();
+}

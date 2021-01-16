@@ -57,7 +57,7 @@ router.get('/confirmlogin', function(req, res, next) {
 
 
 
-router.get('/creategroup', async function(req, res, next) {
+router.post('/creategroup', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     try {
@@ -83,7 +83,7 @@ router.get('/creategroup', async function(req, res, next) {
 });
 
 
-router.get('/testcreategroup', async function(req, res, next) {
+/*router.get('/testcreategroup', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     try {
@@ -107,14 +107,37 @@ router.get('/testcreategroup', async function(req, res, next) {
       res.send(err)
     }
   }
-});
+});*/
 
-router.get('/deletegroup', async function(req, res, next) {
+router.post('/deletegroup', async function(req, res, next) {
 
 }); // TODO: implement this
 
+router.post('/addtogroup', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      let query = await client.query(
+        'SELECT * FROM group_user WHERE groupid=$1 AND userid=$2',
+        [req.body.groupid, req.body.userid] //note this
+        );
+      if (query.rowCount > 0) throw {message: "User already in this group!"};
+      await client.query(
+        'INSERT INTO group_user(groupid, userid, groupname) VALUES($1, $2, $3)',
+        [req.body.groupid, req.body.userid, req.body.groupname]
+        );
+      await client.release();
+      res.send({message: "Added user to group!"});
+    }
+    catch(err) {
+      console.log(err);
+      res.send(err)
+    }
+  }
+})
 
-router.get('/createevent', async function(req, res, next) {
+router.post('/createevent', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     try {
@@ -139,7 +162,7 @@ router.get('/createevent', async function(req, res, next) {
   }
 });
 
-router.get('/testcreateevent', async function(req, res, next) {
+/*router.get('/testcreateevent', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     try {
@@ -163,14 +186,14 @@ router.get('/testcreateevent', async function(req, res, next) {
       res.send(err)
     }
   }
-});
+});*/
 
-router.get('/deleteevent', async function(req, res, next) {
+router.post('/deleteevent', async function(req, res, next) {
 
 }); // TODO: implement this
 
 
-router.get('/toggleavailability', async function(req, res, next) {
+router.post('/toggleavailability', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     try {
@@ -184,7 +207,7 @@ router.get('/toggleavailability', async function(req, res, next) {
           'DELETE FROM availabilities WHERE userid=$1 AND eventid=$2 AND delta=$3;',
           [req.session.userid, req.body.eventid, req.body.delta]
           );
-        res.send({message: "Marked day as available!"});
+        res.send({message: "Removed availability!"});
       }
       else {
         await client.query(
