@@ -1,6 +1,6 @@
 async function createEvent(eventName, eventDescription, groupId, start) {
     let res = await (await fetch(
-        '/createevent',
+        '/users/createevent',
         {
             method: 'POST',
             headers: {
@@ -21,7 +21,7 @@ async function createEvent(eventName, eventDescription, groupId, start) {
 
 async function getEvents(groupId) {
     let res = await (await fetch(
-        '/getevents',
+        '/users/getevents',
         {
             method: 'GET',
             headers: {

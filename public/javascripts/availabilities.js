@@ -8,7 +8,7 @@ function checkAvailability(availabilities) {
 
 async function toggleAvailability(eventId, delta) {
     let res = await (await fetch(
-        '/toggleavailability',
+        '/users/toggleavailability',
         {
             method: 'POST',
             headers: {
@@ -27,7 +27,7 @@ async function toggleAvailability(eventId, delta) {
 
 async function getAvailabilities(eventId) {
     let res = await (await fetch(
-        '/getavailabilities',
+        '/users/getavailabilities',
         {
             method: 'GET',
             headers: {

@@ -1,6 +1,6 @@
 async function createGroup(groupName) {
     let res = await (await fetch(
-        '/creategroup',
+        '/users/creategroup',
         {
             method: 'POST',
             headers: {
@@ -18,7 +18,7 @@ async function createGroup(groupName) {
 
 async function getGroups() {
     let res = await (await fetch(
-        '/getgroups',
+        '/users/getgroups',
         {
             method: 'GET',
             headers: {
@@ -36,7 +36,7 @@ async function deleteGroup(groupId) {
 
 async function addToGroup(userId, groupId, groupName) {
     let res = await (await fetch(
-        '/addtogroup',
+        '/users/addtogroup',
         {
             method: 'POST',
             headers: {
