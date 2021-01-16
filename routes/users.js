@@ -47,8 +47,15 @@ router.get('/confirmlogin', function(req, res, next) {
 
 
 
+/////////////////
+
 
 // API ENDPOINTS
+
+
+/////////////////
+
+
 
 router.get('/creategroup', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
@@ -163,5 +170,68 @@ router.get('/deleteevent', async function(req, res, next) {
 }); // TODO: implement this
 
 
+router.get('/toggleavailability', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      let query = await client.query(
+        'SELECT * FROM availabilities WHERE userid=$1 AND eventid=$2;',
+        [req.session.userid, req.body.eventid] // note this
+        );
+      if (query.rowCount > 0) {
+        await client.query(
+          'DELETE FROM availabilities WHERE userid=$1 AND eventid=$2;',
+          [req.session.userid, req.body.eventid]
+          );
+        res.send({message: "Marked day as available!"});
+      }
+      else {
+        await client.query(
+          'INSERT INTO availabilities(userid, eventid, delta) VALUES($1, $2, $3);',
+          [req.session.userid, req.body.eventid, req.body.delta]
+          );
+        res.send({message: "Marked day as available!"});
+      }
+      await client.release();
+    }
+    catch(err) {
+      console.log(err);
+      res.send(err)
+    }
+  }
+});
+
+router.get('/testtoggleavailability', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      let query = await client.query(
+        'SELECT * FROM availabilities WHERE userid=$1 AND eventid=$2;',
+        [req.session.userid, 625052230736553745] // note this
+        );
+      if (query.rowCount > 0) {
+        await client.query(
+          'DELETE FROM availabilities WHERE userid=$1 AND eventid=$2;',
+          [req.session.userid, 625052230736553745]
+          );
+        res.send({message: "Marked day as unavailable!"});
+      }
+      else {
+        await client.query(
+          'INSERT INTO availabilities(userid, eventid, delta) VALUES($1, $2, $3);',
+          [req.session.userid, 625052230736553745, 3]
+          );
+        res.send({message: "Marked day as available!"});
+      }
+      await client.release();
+    }
+    catch(err) {
+      console.log(err);
+      res.send(err)
+    }
+  }
+});
 
 module.exports = router;
