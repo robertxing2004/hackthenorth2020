@@ -17,12 +17,31 @@ block scripts
           newCell.appendChild(newText);
         }
       }
+      var modal = document.getelementById('myModal');
+      var btn = document.getElementById('myBtn');
+      var span = document.getElementsByClassName('close')[0];
+      btn.onclick = function() {
+        modal.style.display = 'block';
+      } window.onlick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      }
     }
 
 block content
   link(rel='stylesheet', href='/stylesheets/users-override.css')
   h1 profile
   h2 my groups
+  button#myBtn create group
+    div#myModal(class='modal')
+      div(class='modal-content')
+        form#createNewGroup(action='/users/creategroup', method='post')
+          div#groupname
+            label(for='groupname') name your new group!
+            input(type='text', name='groupname', required='required')
+          div#submit
+            input(type='submit', value='submit')
   table#groups
     thead
       tr
