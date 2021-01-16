@@ -1,13 +1,12 @@
-var {Client, Pool} = require('pg');
+var {Pool} = require('pg');
 var fs = require('fs');
-var async = require('async');
 var properties = require('./properties');
 
 var config = {
     user: 'hackathon',
     host : 'free-tier.gcp-us-central1.cockroachlabs.cloud',
     database: 'silly-camel-212.defaultdb',
-    password: properties.clientPassword,
+    password: properties.pgPassword,
     port: 26257,
     ssl: {
         ca: fs.readFileSync('cc-ca.crt').toString()
