@@ -47,15 +47,18 @@ router.get('/confirmlogin', function(req, res, next) {
 
 
 
-/////////////////
+/*-----------------
 
 
 // API ENDPOINTS
 
 
-/////////////////
+-------------------*/
 
 
+/*
+Group endpoints
+*/
 
 router.post('/creategroup', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
@@ -63,7 +66,7 @@ router.post('/creategroup', async function(req, res, next) {
     try {
       let client = await pool.connect();
       let query = await client.query(
-        'SELECT * FROM group_user WHERE userid=$1 AND groupname=$2',
+        'SELECT * FROM group_user WHERE userid=$1 AND groupname=$2 LIMIT 1;',
         [req.session.userid, req.body.groupname] //note this
         );
       if (query.rowCount > 0) throw {message: "Group with this name already exists!"};
@@ -77,11 +80,34 @@ router.post('/creategroup', async function(req, res, next) {
     }
     catch(err) {
       console.log(err);
-      res.send(err)
+      res.send(err);
     }
   }
 });
 
+router.get('/getgroups', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      let query = await client.query(
+        'SELECT * FROM group_user WHERE userid=$1;',
+        [req.session.userid]
+        );
+      if (query.rowCount === 0) throw {message: "No groups found!"};
+      let groups = [];
+      for (g_u of query.rows) {
+        let group = (await client.query('SELECT * FROM groups WHERE id=$1 LIMIT 1;', [g_u.groupid])).rows[0];
+        groups.push(group);
+      }
+      res.send(groups);
+    }
+    catch(err) {
+      console.log(err);
+      res.send([]);
+    }
+  }
+});
 
 /*router.get('/testcreategroup', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
@@ -119,12 +145,12 @@ router.post('/addtogroup', async function(req, res, next) {
     try {
       let client = await pool.connect();
       let query = await client.query(
-        'SELECT * FROM group_user WHERE groupid=$1 AND userid=$2',
+        'SELECT * FROM group_user WHERE groupid=$1 AND userid=$2 LIMIT 1;',
         [req.body.groupid, req.body.userid] //note this
         );
       if (query.rowCount > 0) throw {message: "User already in this group!"};
       await client.query(
-        'INSERT INTO group_user(groupid, userid, groupname) VALUES($1, $2, $3)',
+        'INSERT INTO group_user(groupid, userid, groupname) VALUES($1, $2, $3);',
         [req.body.groupid, req.body.userid, req.body.groupname]
         );
       await client.release();
@@ -132,10 +158,16 @@ router.post('/addtogroup', async function(req, res, next) {
     }
     catch(err) {
       console.log(err);
-      res.send(err)
+      res.send(err);
     }
   }
-})
+});
+
+
+/*
+Event endpoints
+*/
+
 
 router.post('/createevent', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
@@ -143,7 +175,7 @@ router.post('/createevent', async function(req, res, next) {
     try {
       let client = await pool.connect();
       let query = await client.query(
-        'SELECT * FROM events WHERE groupid=$1 AND name=$2;',
+        'SELECT * FROM events WHERE groupid=$1 AND name=$2 LIMIT 1;',
         [req.body.groupid, req.body.eventname] // note this
         );
       if (query.rowCount > 0) throw {message: "Event with this name already exists!"};
@@ -154,6 +186,25 @@ router.post('/createevent', async function(req, res, next) {
         );
       await client.release();
       res.send({message: "Event created!"});
+    }
+    catch(err) {
+      console.log(err);
+      res.send(err);
+    }
+  }
+});
+
+router.get('/getevents', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      let query = await client.query(
+        'SELECT * FROM events WHERE groupid=$1;',
+        [req.body.groupid]
+        );
+      if (query.rowCount === 0) throw {message: "No events found for this group!"};
+      res.send(query.rows);
     }
     catch(err) {
       console.log(err);
@@ -193,13 +244,18 @@ router.post('/deleteevent', async function(req, res, next) {
 }); // TODO: implement this
 
 
+/*
+Availability endpoints
+*/
+
+
 router.post('/toggleavailability', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     try {
       let client = await pool.connect();
       let query = await client.query(
-        'SELECT * FROM availabilities WHERE userid=$1 AND eventid=$2 AND delta=$3;',
+        'SELECT * FROM availabilities WHERE userid=$1 AND eventid=$2 AND delta=$3 LIMIT 1;',
         [req.session.userid, req.body.eventid, req.body.delta] // note this
         );
       if (query.rowCount > 0) {
@@ -225,7 +281,26 @@ router.post('/toggleavailability', async function(req, res, next) {
   }
 });
 
-router.get('/testtoggleavailability', async function(req, res, next) {
+router.get('/getavailabilities', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      let query = await client.query(
+        'SELECT * FROM availabilities WHERE eventid=$1;',
+        [req.body.eventid]
+        );
+      if (query.rowCount === 0) throw {message: "No availabilities for this event!"};
+      res.send(query.rows);
+    }
+    catch(err) {
+      console.log(err);
+      res.send([])
+    }
+  }
+});
+
+/*router.get('/testtoggleavailability', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     try {
@@ -255,6 +330,6 @@ router.get('/testtoggleavailability', async function(req, res, next) {
       res.send(err)
     }
   }
-});
+});*/
 
 module.exports = router;

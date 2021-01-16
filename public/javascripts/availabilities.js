@@ -24,3 +24,20 @@ async function toggleAvailability(eventId, delta) {
     alert(res.message);
     location.reload();
 }
+
+async function getAvailabilities(eventId) {
+    let res = await (await fetch(
+        '/getavailabilities',
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventid: eventId
+            })
+        }
+    )).json();
+    console.log(res);
+    return res;
+}

@@ -17,8 +17,18 @@ async function createGroup(groupName) {
 }
 
 async function getGroups() {
-
-} //TODO
+    let res = await (await fetch(
+        '/getgroups',
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )).json();
+    console.log(res);
+    return res;
+}
 
 async function deleteGroup(groupId) {
 

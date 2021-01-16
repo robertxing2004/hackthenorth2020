@@ -19,7 +19,21 @@ async function createEvent(eventName, eventDescription, groupId, start) {
     location.reload();
 }
 
-async function getEvents() {
+async function getEvents(groupId) {
+    let res = await (await fetch(
+        '/getevents',
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                groupid: groupId
+            })
+        }
+    )).json();
+    console.log(res);
+    return res;
 }
 
 async function deleteGroup(eventName) {
