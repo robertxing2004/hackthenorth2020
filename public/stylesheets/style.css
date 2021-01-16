@@ -42,10 +42,12 @@ nav a:hover {
 }
 
 h1 {
+  font-weight: lighter;
   font-size: 75px;
 }
 
 h2 {
+  font-weight: lighter;
   font-size: 35px;
 }
 

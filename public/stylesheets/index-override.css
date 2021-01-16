@@ -5,12 +5,10 @@ body {
 }
 
 h1 {
-    font-weight: lighter;
     margin-top: 150px;
     margin-bottom: 25px;
 }
 
 p {
     font-size: 50px;
-    font-weight: lighter;
 }
