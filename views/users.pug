@@ -20,12 +20,11 @@ block scripts
 
       var modal = document.getElementById('myModal');
       var btn = document.getElementById('myBtn');
-      var span = document.getElementsByClassName('close')[0];
       btn.onclick = function() {
         modal.style.display = 'block';
       }
-      window.onlick = function(event) {
-        if (event.target != modal) {
+      window.onclick = function(event) {
+        if (event.target == modal) {
           modal.style.display = 'none';
         }
       }
@@ -43,7 +42,8 @@ block content
             label(for='groupname') name your new group!
             input(type='text', name='groupname', required='required')
           div#submit
-            input(type='submit', value='submit')
+            input(type='submit', value='create group')
+
   table#groups
     thead
       tr
