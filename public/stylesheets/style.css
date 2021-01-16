@@ -1,10 +1,10 @@
 body {
   padding: 0;
   margin: 0;
-  background-color: #01a7c2;
+  background-color: #eaebed;
   font-family: 'Quicksand', sans-serif;
   font-size: 25px;
-  color: #eaebed;
+  color: #006090;
 }
 
 .content {
@@ -23,6 +23,7 @@ nav ul {
 }
 
 nav li {
+  font-weight: bolder;
   float: right;
   margin: 0;
   display: inline;
@@ -30,7 +31,7 @@ nav li {
 
 nav a {
   font-size: 25px;
-  color: #eaebed;
+  color: #006090;
   padding: 10px 20px;
   text-decoration: none;
   border-radius: 4px;
@@ -38,7 +39,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #c8d0df;
+  color: #007090;
 }
 
 h1 {
@@ -57,6 +58,6 @@ h3 {
 }
 
 a {
-  color: #eaebed;
+  color: #006090;
   text-decoration: none;
 }

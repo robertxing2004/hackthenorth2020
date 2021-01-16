@@ -1,0 +1,36 @@
+extends layout
+
+block scripts
+  script(src='/javascripts/events.js')
+  script.
+    window.onload = () => {
+      var events = getEvents();
+      console.log(events);
+      if (events.length > 0) {
+        var table = document.getElementById('events').getElementByTagName('td')[0];
+        table.delete(0);
+        table.delete(0);
+        for (event of events) {
+          var newRow = table.insertRow();
+          var newCell = newRow.insertCell();
+          var newText = document.createtextNode(event.name);
+          newCell.appendChild(newText);
+        }
+      }
+    }
+
+block content
+  link(rel='stylesheet', href='/stylesheets/groups-override.css')
+  h2= group.name
+  table#events
+    thead
+      tr
+        th
+        th
+    tbody
+      tr#default
+        td no meets anytime soon!
+        td 
+      tr#default
+        td miss each other yet?
+        td
