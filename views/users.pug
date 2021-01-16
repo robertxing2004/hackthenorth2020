@@ -17,13 +17,15 @@ block scripts
           newCell.appendChild(newText);
         }
       }
-      var modal = document.getelementById('myModal');
+
+      var modal = document.getElementById('myModal');
       var btn = document.getElementById('myBtn');
       var span = document.getElementsByClassName('close')[0];
       btn.onclick = function() {
         modal.style.display = 'block';
-      } window.onlick = function(event) {
-        if (event.target == modal) {
+      }
+      window.onlick = function(event) {
+        if (event.target != modal) {
           modal.style.display = 'none';
         }
       }
