@@ -1,6 +1,7 @@
 var {Pool} = require('pg');
 var fs = require('fs');
 var properties = require('./properties');
+const { timeStamp } = require('console');
 
 var config = {
     user: 'hackathon',
@@ -14,12 +15,12 @@ var config = {
   };
 
 var pool = new Pool(config);
-/*pool.connect(async (err, client, done) => {
-    if (err) throw err;
-    var e = await client.query('SELECT * FROM test;');
-    console.log(e.rows);
-    done();
-    process.exit();
-});*/
+async function test() {
+    let client = await pool.connect();
+    let query = await client.query('SELECT * FROM users;');
+    console.log(query.rows);
+    await client.release();
+}
+test();
 
 module.exports = pool;

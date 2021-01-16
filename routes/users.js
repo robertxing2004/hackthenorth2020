@@ -3,6 +3,7 @@ var axios = require('axios');
 var router = express.Router();
 
 var properties = require('../properties');
+var pool = require('../db');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -31,8 +32,12 @@ router.get('/confirmlogin', function(req, res, next) {
   }).
   then(async data => {
     req.session.userid = data.login;
+    let client = await pool.connect();
+    let query = await client.query('SELECT * FROM users WHERE id=$1 LIMIT 1;', [data.login]);
+    if (query.rowCount === 0) await client.query('INSERT INTO users(id, name) VALUES ($1, $2);', [data.login, data.name]);
+    await client.release();
     console.log(req.session.userid);
-    console.log("Logged in");
+    console.log("Logged in\n********\n\n\n\n");
   }).
   then(() => {
     res.redirect('/users');
