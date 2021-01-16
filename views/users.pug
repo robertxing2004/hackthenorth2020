@@ -3,12 +3,11 @@ extends layout
 block scripts
   script(src='/javascripts/groups.js')
   script.
-    window.onload = () => {
-      var groups = getGroups();
+    window.onload = async () => {
+      let groups = await getGroups();
       console.log(groups);
       if (groups.length > 0) {
         var table = document.getElementById('groups').getElementsByTagName('td')[0];
-        table.delete(0);
         table.delete(0);
         for (group of groups) {
           var newRow = table.insertRow();
@@ -24,8 +23,8 @@ block scripts
       btn.onclick = function() {
         modal.style.display = 'block';
       }
-      window.onlick = function(event) {
-        if (event.target != modal) {
+      window.onclick = function(event) {
+        if (event.target == modal) {
           modal.style.display = 'none';
         }
       }
@@ -51,8 +50,4 @@ block content
         th
     tbody
       tr#default
-        td it's a little quiet in here
-        td 
-      tr#default
-        td get some friends to join meet.up!
-        td
+        td it's a little quiet in here, get some friends to join meet.up!

@@ -13,6 +13,16 @@ router.get('/', function(req, res, next) {
   }
 });
 
+router.get('/myevents', function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    if (!req.body.groupid) throw {message: "you forgot about this!"};
+    res.render('myevents', {
+      userid: req.session.userid
+    });
+  }
+});
+
 router.all('/login', function(req, res, next) {
   res.redirect(`https://github.com/login/oauth/authorize?client_id=${properties.githubClientID}&scope=user`);
 });
