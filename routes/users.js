@@ -9,7 +9,7 @@ var pool = require('../db');
 router.get('/', function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
-    res.send('respond with a resource');
+    res.render('users');
   }
 });
 
