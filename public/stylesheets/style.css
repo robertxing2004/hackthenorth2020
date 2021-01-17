@@ -171,8 +171,16 @@ div input[type="submit"]:hover {
   cursor: pointer;
 }
 
-table, tr, td {
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid #006090;
+  border-radius: 10px;
+}
+
+table, th, td {
   font-weight: bold;
+  font-size: 25px;
   width: 100%;
   margin-bottom: 50px;
   padding: 15px;
@@ -182,9 +190,6 @@ table, tr, td {
   text-align: center;
 }
 
-tr:hover {
-  cursor: pointer;
-}
-tr:active {
-  background-color: #d0d6e0;
+table td {
+  font-size: 20px;
 }

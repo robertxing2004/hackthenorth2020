@@ -10,10 +10,17 @@ block scripts
 
 block content
   link(rel='stylesheet', href='/stylesheets/event-override.css')
+  h2 mark your available days
   table#calendar
     thead
       tr
-          th mark your available days
+        th sun
+        th mon
+        th tue
+        th wed
+        th thu
+        th fri
+        th sat
     tbody
       each i in [1, 2, 3, 4, 5]
         tr
