@@ -7,6 +7,10 @@ function addOne(date) {
 function loadCalendarAvailabilities(start, available, useravailable, num, eventId) {
     let day = new Date(start);
     let table = document.getElementById('calendar').getElementsByTagName('tbody')[0];
+    let date = document.getElementById('date');
+    let year = day.getFullYear();
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'june', 'july', 'sep', 'oct', 'nov', 'dec']
+    date.innerHTML += months[day.getMonth()];
     let row = 0, col = day.getDay();
     for (let i = 0; i < 28; ++i) {
         if (col == 7) {col = 0; ++row;}
@@ -18,4 +22,5 @@ function loadCalendarAvailabilities(start, available, useravailable, num, eventI
         day = addOne(day);
         ++col;
     }
+    date.innerHTML += '-' + months[day.getMonth()] + ', ' + year;
 }
