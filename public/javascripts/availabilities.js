@@ -28,7 +28,7 @@ async function getAvailabilities(eventId) {
     let res = await (await fetch(
         '/users/getavailabilities',
         {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },

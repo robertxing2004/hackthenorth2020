@@ -14,6 +14,7 @@ async function createEvent(eventName, eventDescription, groupId, start) {
             })
         }
     )).json();
+    alert(res.message); //how to make alert after page reload ??
     location.reload();
     return res.message;
 }
@@ -22,7 +23,7 @@ async function getEvents(groupId) {
     let res = await (await fetch(
         '/users/getevents',
         {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },

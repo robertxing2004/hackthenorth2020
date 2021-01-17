@@ -3,10 +3,10 @@ extends layout
 block scripts
   script(src='/javascripts/groups.js')
   script.
-    function sendData() {
+    async function sendData() {
       let data = document.getElementById('createNewGroup').getElementsByTagName('input');
       if (data[0].value) {
-        let res = createGroup(data[0].value);
+        let res = await createGroup(data[0].value);
         alert(res);
       }
     }

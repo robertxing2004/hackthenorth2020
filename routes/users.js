@@ -248,7 +248,7 @@ router.post('/createevent', async function(req, res, next) {
   }
 });
 
-router.get('/getevents', async function(req, res, next) {
+router.post('/getevents', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     try {
@@ -335,7 +335,7 @@ router.post('/toggleavailability', async function(req, res, next) {
   }
 });
 
-router.get('/getavailabilities', async function(req, res, next) {
+router.post('/getavailabilities', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     try {

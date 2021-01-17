@@ -4,10 +4,11 @@ block scripts
   script(src='/javascripts/events.js')
   script let groupid = #{groupid};
   script.
-    function sendData() {
+    async function sendData() {
       let data = document.getElementById('createNewEvent').getElementsByTagName('input');
       if (data[0].value && data[1].value) {
-        let res = createEvent(data[0].value, data[1].value, groupid, data[2].value);
+        let res = await createEvent(data[0].value, data[1].value, groupid, data[2].value);
+        alert(res);
       }
     }
 
@@ -54,6 +55,7 @@ block scripts
           td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
         }
       }
+      
       var modal = document.getElementById('myModal');
       var btn = document.getElementById('myBtn');
       btn.onclick = function() {
