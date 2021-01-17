@@ -94,7 +94,6 @@ button {
   border-radius: 8px;
   transition-duration: 0.4s;
   border: 1px solid #006090;
-  cursor: pointer;
 }
 
 button:hover {
