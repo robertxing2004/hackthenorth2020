@@ -93,7 +93,7 @@ button {
   padding: 15px;
   border-radius: 8px;
   transition-duration: 0.4s;
-  border: 1px solid #006090;
+  border: 2px solid #006090;
 }
 
 button:hover {
@@ -102,7 +102,6 @@ button:hover {
 
 button:focus {
   outline: none;
-  background-color: #eaebed;
 }
 
 .close {
@@ -174,7 +173,7 @@ div input[type="submit"]:hover {
 table {
   table-layout: fixed;
   border-collapse: collapse;
-  border: 1px solid #006090;
+  border: 2px solid #006090;
   border-radius: 10px;
 }
 
@@ -185,7 +184,7 @@ table, th, td {
   margin-bottom: 50px;
   padding: 15px;
   border-collapse: collapse;
-  border-bottom: 1px solid #006090;
+  border-bottom: 2px solid #006090;
   color: #006090;
   text-align: center;
 }

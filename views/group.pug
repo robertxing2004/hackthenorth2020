@@ -99,7 +99,7 @@ block scripts
             );
           
           td = row.insertCell();
-          text = document.createTextNode('X');
+          text = document.createTextNode('x');
           td.appendChild(text);
           td.setAttribute(
             'onclick',
@@ -108,13 +108,8 @@ block scripts
         }
       }
       
-      var members = await getGroupUsers(groupid);
-      var groupMembers = document.getElementById('groupMembers');
-      for (m of members) {
-        let li = document.createElement('li');
-        li.appendChild(document.createTextNode(m.name));
-        groupMembers.appendChild(li);
-      }
+      var groupMembers = await getGroupUsers(groupid);
+      console.log(groupMembers);
       
       var eventModal = document.getElementById('createNewEventModal');
       var eventBtn = document.getElementById('createNewEventBtn');
