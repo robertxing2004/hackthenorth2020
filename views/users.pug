@@ -49,6 +49,11 @@ block scripts
           var text = document.createTextNode(group.name);
           td.appendChild(text);
           td.setAttribute('onclick', 'sendGroup("' + group.id + '","' + group.name + '",' + group.num + ')');
+
+          td = row.insertCell();
+          text = document.createTextNode("X");
+          td.appendChild(text);
+          td.setAttribute('onclick', 'deleteGroup("' + group.id + '")');
         }
       }
 

@@ -40,5 +40,6 @@ async function deleteGroup(groupId) {
             })
         }
     )).json();
-    return res.message;
+    location.reload();
+    alert(res.message);
 }

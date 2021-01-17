@@ -68,6 +68,20 @@ async function getEvents(groupId) {
     return res;
 }
 
-async function deleteGroup(eventName) {
-}//TODO
+async function deleteEvent(eventId) {
+    let res = await (await fetch(
+        '/users/deleteevent',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventid: eventId
+            })
+        }
+    )).json();
+    location.reload();
+    alert(res.message);
+}
 

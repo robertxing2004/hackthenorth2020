@@ -233,20 +233,25 @@ router.post('/deletegroup', async function(req, res, next) {
       let client = await pool.connect();
       await client.query('SET search_path TO scott;');
       let query = await client.query(
-        'SELECT * FROM group_user WHERE userid=$1 AND groupid=$2 LIMIT 1;',
+        'SELECT * FROM group_user WHERE userid=$1 AND groupid=$2 LIMIT 1',
         [req.session.userid, req.body.groupid]
         );
       if (query.rowCount === 0) throw {message: "Group not found!"};
-      await client.query('DELETE FROM groups WHERE id=$1;', [req.body.groupid]);
-      await client.query('DELETE FROM group_user WHERE groupid=$1', [req.body.groupid]);
+      await client.query(
+        'DELETE FROM group_user WHERE userid=$1 AND groupid=$2 LIMIT 1',
+        [req.session.userid, req.body.groupid]
+        );
 
-      query = await client.query(
-        'SELECT * FROM events WHERE groupid=$1',
-        [req.body.groupid]
-      );
-      for (evt of query.rows) {
-        await client.query('DELETE FROM availabilities WHERE eventid=$1', [evt.id]);
-        await client.query('DELETE FROM events WHERE id=$1', [evt.id]);
+      if (query.rowCount <= 2) {
+        await client.query('DELETE FROM groups WHERE id=$1;', [req.body.groupid]);
+        query = await client.query(
+          'SELECT * FROM events WHERE groupid=$1',
+          [req.body.groupid]
+        );
+        for (evt of query.rows) {
+          await client.query('DELETE FROM availabilities WHERE eventid=$1', [evt.id]);
+          await client.query('DELETE FROM events WHERE id=$1', [evt.id]);
+        }
       }
       await client.release();
       res.send({message: 'Deleted group!'});
@@ -256,7 +261,7 @@ router.post('/deletegroup', async function(req, res, next) {
       res.send(err);
     }
   }
-}); // TODO: implement this
+});
 
 router.post('/addtogroup', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
@@ -365,8 +370,33 @@ router.post('/getevents', async function(req, res, next) {
 });*/
 
 router.post('/deleteevent', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
+      let query = await client.query(
+        'SELECT * FROM events WHERE id=$1;',
+        [req.body.eventid]
+        );
+      if (query.rowCount === 0) throw {message: "Event not found!"};
 
-}); // TODO: implement this
+      query = await client.query(
+        'SELECT * FROM group_user WHERE groupid=$1 AND userid=$2',
+        [query.rows[0].id, req.session.userid]
+        );
+      if (query.rowCount === 0) throw {message: "Not part of this group!"};
+      await client.query('DELETE FROM events WHERE id=$1;', [req.body.eventid]);
+      await client.query('DELETE FROM availabilities WHERE eventid=$1', [req.body.eventid]);
+      await client.release();
+      res.send({message: 'Deleted event!'});
+    }
+    catch(err) {
+      console.log(err);
+      res.send(err);
+    }
+  }
+});
 
 
 /*

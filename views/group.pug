@@ -97,6 +97,14 @@ block scripts
             'onclick',
             'sendEvent("' + event.id + '","' + event.name + '","' + event.description + '","' + event.start + '")'
             );
+          
+          td = row.insertCell();
+          text = document.createTextNode('X');
+          td.appendChild(text);
+          td.setAttribute(
+            'onclick',
+            'deleteEvent("' + event.id + '")'
+            );
         }
       }
       
