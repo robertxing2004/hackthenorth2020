@@ -27,6 +27,22 @@ async function getGroups() {
     return res;
 }
 
+async function getGroupUsers(groupId) {
+    let res = await (await fetch(
+        '/users/getgroupusers',
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                groupid: groupId
+          })
+        }
+    )).json();
+    return res;
+}
+
 async function deleteGroup(groupId) {
     let res = await (await fetch(
         '/users/deletegroup',

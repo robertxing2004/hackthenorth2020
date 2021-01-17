@@ -108,15 +108,23 @@ block scripts
         }
       }
       
+      var groupMembers = await getGroupUsers(groupid);
+      console.log(groupMembers);
+      
       var eventModal = document.getElementById('createNewEventModal');
       var eventBtn = document.getElementById('createNewEventBtn');
       var userModal = document.getElementById('inviteUserModal');
       var userBtn = document.getElementById('inviteUserBtn');
+      var memberModal = document.getElementById('viewMemberModal');
+      var memberBtn = document.getElementById('viewMemberBtn');
       eventBtn.onclick = function() {
         eventModal.style.display = 'block';
       }
       userBtn.onclick = function() {
         userModal.style.display = 'block';
+      }
+      memberBtn.onclick = function() {
+        memberModal.style.display = 'block';
       }
       window.onclick = function(event) {
         if (event.target == eventModal) {
@@ -124,6 +132,9 @@ block scripts
         }
         if (event.target == userModal) {
           userModal.style.display = 'none';
+        }
+        if (event.target == memberModal) {
+          memberModal.style.display = 'none';
         }
       }
     }
@@ -155,6 +166,10 @@ block content
           div.submit
             input(type='submit', value='search')
           ul#availableUsers
+  button#viewMemberBtn view members
+    div#viewMemberModal(class='modal')
+      div(class='modal-content')
+        ul#groupMembers
   table#events
     thead
       tr
