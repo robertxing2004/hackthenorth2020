@@ -49,9 +49,11 @@ block scripts
           var text = document.createTextNode(event.name);
           td.appendChild(text);
           td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
-          var td = row.insertCell();
-          var text = document.createTextNode(event.description);
+          
+          td = row.insertCell();
+          text = document.createTextNode(event.description);
           td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
+          td.appendChild(text);
         }
       }
 
