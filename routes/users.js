@@ -162,6 +162,33 @@ router.get('/getgroups', async function(req, res, next) {
   }
 });
 
+router.post('/getgroupusers', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      let query = await client.query(
+        `SELECT * FROM group_user WHERE groupid=$1;`,
+        [req.body.groupid]
+        );
+      console.log(query.rows);
+      if (query.rowCount === 0) throw {message: "No users found!"};
+      let users = [];
+      for (i of query.rows) {
+        let u = await client.query(
+          'SELECT * FROM users WHERE id=$1 LIMIT 1;', [i.userid]
+        ).rows[0];
+        users.push(u);
+      }
+      res.send(users);
+    }
+    catch(err) {
+      console.log(err);
+      res.send([]);
+    }
+  }
+});
+
 /*router.get('/testcreategroup', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {

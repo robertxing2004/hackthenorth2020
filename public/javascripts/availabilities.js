@@ -1,5 +1,6 @@
 function checkAvailability(availabilities) {
-    available = [0, 0, 0, 0, 0, 0, 0];
+    available = [];
+    for (let i = 0; i < 28; ++i) available.push(0);
     for (i of availabilities) {
         ++available[i.delta];
     }

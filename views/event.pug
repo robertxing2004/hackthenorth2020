@@ -3,6 +3,9 @@ extends layout
 block scripts
   script(src='/javascripts/availabilities.js')
   script(src='/javascripts/calendar.js')
+  script let eventid = #{eventid};
+  script let eventname = #{eventname};
+  script let eventdescription = #{eventdescription};
   script.
     window.onload = () => {
       
@@ -11,6 +14,7 @@ block scripts
 block content
   link(rel='stylesheet', href='/stylesheets/event-override.css')
   h2 mark your available days
+  p#month-year
   table#calendar
     thead
       tr
