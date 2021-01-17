@@ -29,13 +29,18 @@ block scripts
       }
     }
 
+    function sendData() {
+      let data = document.getElementById('createNewGroup').getElementsByTagName('input');
+      if (data[0].value) createGroup(data[0].value);
+    }
+
 block content
   link(rel='stylesheet', href='/stylesheets/users-override.css')
   h2 my groups
   button#myBtn create group
     div#myModal(class='modal')
       div(class='modal-content')
-        form#createNewGroup(action='/users/creategroup', method='post')
+        form#createNewGroup(onsubmit='sendData()')
           div#groupname
             label(for='groupname') name your new group!
             input(type='text', name='groupname', required='required')

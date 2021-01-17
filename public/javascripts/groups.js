@@ -11,9 +11,8 @@ async function createGroup(groupName) {
             })
         }
     )).json();
-    console.log(res.message);
-    alert(res.message);
     location.reload();
+    return res.message;
 }
 
 async function getGroups() {
@@ -31,8 +30,21 @@ async function getGroups() {
 }
 
 async function deleteGroup(groupId) {
-
-} //TODO
+    let res = await (await fetch(
+        '/users/deletegroup',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                groupid: groupId
+            })
+        }
+    )).json();
+    location.reload();
+    return res.message;
+}
 
 async function addToGroup(userId, groupId, groupName) {
     let res = await (await fetch(
@@ -49,7 +61,6 @@ async function addToGroup(userId, groupId, groupName) {
             })
         }
     )).json();
-    console.log(res.message);
-    alert(res.message);
     location.reload();
+    return res.message;
 }
