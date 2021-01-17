@@ -1,3 +1,9 @@
+body {
+  background-image: url('/images/meet.up group.png');
+  background-repeat: no-repeat;
+  background-size: 100vw;
+}
+
 h1 {
   font-weight: bold;
   font-size: 45px;
@@ -7,11 +13,23 @@ h2 {
   text-align: center;
 }
 
+table, th, td {
+  table-layout: auto;
+  background-color: #eaebed81;
+  border: 2px solid #006090;
+  width: 100%;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
 tbody tr {
   transition-duration: 0.4s;
 }
 
 tbody tr:hover {
-  background-color: #d0d6e0;
+  background-color: #d0d6e081;
   cursor: pointer;
 }
