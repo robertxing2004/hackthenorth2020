@@ -19,6 +19,7 @@ router.get('/', function(req, res, next) {
 router.post('/group', function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
+    console.log(req.body.groupid);
     res.render('group', {
       userid: req.session.userid,
       groupname: req.body.groupname,
@@ -92,7 +93,10 @@ router.post('/searchusers', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
-      let query = await client.query('SELECT * FROM users WHERE id LIKE \'%$1%\' OR name LIKE \'%$1%\';');
+      let query = await client.query(
+        `SELECT * FROM users WHERE id LIKE '%' || $1 || '%' OR name LIKE '%' || $1 || '%';`,
+        [req.body.search]
+        );
       console.log(query.rows);
       if (query.rowCount === 0) throw {message: "No users found!"};
       res.send(query.rows);
