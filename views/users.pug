@@ -12,7 +12,7 @@ block scripts
       }
     }
 
-    function sendGroup(groupId, groupName) {
+    function sendGroup(groupId, groupName, groupNum) {
       let form = document.createElement('form');
       form.method = 'POST';
       form.action = '/users/group';
@@ -26,8 +26,13 @@ block scripts
       groupname.name = 'groupname';
       groupname.value = groupName;
 
+      let groupnum = document.createElement('input');
+      groupnum.name = 'groupnum';
+      groupnum.value = groupNum;
+
       form.appendChild(groupid);
       form.appendChild(groupname);
+      form.appendChild(groupnum);
       document.body.appendChild(form);
       form.submit();
     }
@@ -43,7 +48,12 @@ block scripts
           var td = row.insertCell();
           var text = document.createTextNode(group.name);
           td.appendChild(text);
-          td.setAttribute('onclick', 'sendGroup("' + group.id + '","' + group.name + '")');
+          td.setAttribute('onclick', 'sendGroup("' + group.id + '","' + group.name + '",' + group.num + ')');
+
+          td = row.insertCell();
+          text = document.createTextNode("X");
+          td.appendChild(text);
+          td.setAttribute('onclick', 'deleteGroup("' + group.id + '")');
         }
       }
 

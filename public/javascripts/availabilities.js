@@ -22,7 +22,7 @@ async function toggleAvailability(eventId, delta) {
         }
     )).json();
     location.reload();
-    return res.message;
+    alert(res.message);
 }
 
 async function getAvailabilities(eventId) {
@@ -43,7 +43,8 @@ async function getAvailabilities(eventId) {
 }
 
 function getUserAvailabilities(availabilities, userid) {
-    let useravailable = [0, 0, 0, 0, 0, 0, 0];
+    let useravailable = [];
+    for (let i = 0; i < 28; ++i) useravailable.push(0);
     for (let a of availabilities) {
         if (a.userid == userid) useravailable[a.delta] = 1;
     }
