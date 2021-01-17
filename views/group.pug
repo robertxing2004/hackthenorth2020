@@ -112,7 +112,7 @@ block scripts
       var groupMembers = document.getElementById('groupMembers');
       for (m of members) {
         let li = document.createElement('li');
-        li.appendChild(document.createTextNode(m.name));
+        li.appendChild(document.createTextNode(m.name ? m.name : m.id));
         groupMembers.appendChild(li);
       }
       
