@@ -21,7 +21,7 @@ async function toggleAvailability(eventId, delta) {
             })
         }
     )).json();
-    await loadCalendar();
+    location.reload();
 }
 
 async function getAvailabilities(eventId) {

@@ -11,6 +11,10 @@ block scripts
   script let num = #{num};
   script.
     async function loadCalendar() {
+      for (td of document.getElementById('calendar').getElementsByTagName('td')) {
+        td.removeAttribute('class');
+        td.removeAttribute('data-percentage');
+      }
       let availabilities = await getAvailabilities(eventid);
       let available = checkAvailability(availabilities);
       let useravailable = getUserAvailabilities(availabilities, userid);
@@ -20,7 +24,7 @@ block scripts
         let p = td.getAttribute('data-percentage');
         if (p > 0) {
           td.style.backgroundColor = `rgba(239, 108, 126, ${p/100})`;
-          if (p > 0.5) td.style.color = 'white';
+          if (p > 30) td.style.color = 'white';
           if (td.classList.contains('userselected')) td.innerHTML += '✓';
         }
       }

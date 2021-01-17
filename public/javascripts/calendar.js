@@ -16,7 +16,6 @@ function loadCalendarAvailabilities(start, available, useravailable, num, eventI
         if (col == 7) {col = 0; ++row;}
         let td = table.rows[row].cells[col];
         td.innerHTML = day.getDate();
-        td.setAttribute('class', '');
         td.setAttribute('onclick', 'toggleAvailability("' + eventId + '",' + i +')');
         td.setAttribute('data-percentage', Math.round(available[i]*100/num));
         if (useravailable[i] > 0) td.classList.add('userselected');
