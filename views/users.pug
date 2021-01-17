@@ -7,9 +7,9 @@ block scripts
       let groups = await getGroups();
       console.log(groups);
       if (groups.length > 0) {
-        var table = document.getElementById('groups').getElementsByTagName('td')[0];
-        table.delete(0);
-        for (group of groups) {
+        var table = document.getElementById('groups').getElementsByTagName('tbody')[0];
+        table.deleteRow(0);
+        for (group of groups) if (group) {
           var newRow = table.insertRow();
           var newCell = newRow.insertCell();
           var newText = document.createTextNode(group.name);
