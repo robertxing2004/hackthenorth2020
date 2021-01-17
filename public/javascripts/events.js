@@ -15,7 +15,6 @@ async function createEvent(eventName, eventDescription, groupId, start) {
         }
     )).json();
     alert(res.message); //how to make alert after page reload ??
-    location.reload();
     return res.message;
 }
 

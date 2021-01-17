@@ -9,6 +9,7 @@ block scripts
       if (data[0].value && data[1].value) {
         let res = await createEvent(data[0].value, data[1].value, groupid, data[2].value);
         alert(res);
+        location.reload();
       }
     }
 
@@ -58,21 +59,19 @@ block scripts
       }
       
       var eventModal = document.getElementById('createNewEventModal');
-      var eventBtn = document.getElementById('createNewEventButton');
+      var eventBtn = document.getElementById('createNewEventBtn');
       var userModal = document.getElementById('inviteUserModal');
       var userBtn = document.getElementById('inviteUserBtn');
       eventBtn.onclick = function() {
         eventModal.style.display = 'block';
       }
+      userBtn.onclick = function() {
+        userModal.style.display = 'block';
+      }
       window.onclick = function(event) {
         if (event.target == eventModal) {
           eventModal.style.display = 'none';
         }
-      }
-      userBtn.onclick = function() {
-        userModal.style.display = 'block';
-      }
-      window.onclick = function() {
         if (event.target == userModal) {
           userModal.style.display = 'none';
         }
