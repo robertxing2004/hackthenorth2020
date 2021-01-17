@@ -2,21 +2,49 @@ extends layout
 
 block scripts
   script(src='/javascripts/events.js')
-  script let userid = '#{userid};'
-  script let groupid = '#{groupid};'
+  script let groupid = #{groupid};
   script.
-    window.onload = () => {
-      var events = getEvents();
+    function sendEvent(eventId, eventName, eventDescription) {
+      let form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/users/event';
+      form.style.display = 'none';
+
+      let eventid = document.createElement('input');
+      eventid.name = 'eventid';
+      eventid.value = eventId;
+
+      let eventname = document.createElement('input');
+      eventname.name = 'eventname';
+      eventname.value = eventName;
+
+      let eventdescription = document.createElement('input');
+      eventdescription.name = 'eventdescription';
+      eventdescription.value = eventDescription;
+
+      form.appendChild(eventid);
+      form.appendChild(eventname);
+      form.appendChild(eventdescription);
+      document.body.appendChild(form);
+      form.submit();
+    }
+
+    window.onload = async () => {
+      var events = await getEvents(groupid);
       console.log(events);
       if (events.length > 0) {
-        var table = document.getElementById('events').getElementByTagName('td')[0];
-        table.delete(0);
-        table.delete(0);
+        var table = document.getElementById('events').getElementByTagName('tbody')[0];
+        table.deleteRow(0);
+        table.deleteRow(0);
         for (event of events) {
-          var newRow = table.insertRow();
-          var newCell = newRow.insertCell();
-          var newText = document.createtextNode(event.name);
-          newCell.appendChild(newText);
+          var row = table.insertRow();
+          var td = row.insertCell();
+          var text = document.createtextNode(event.name);
+          td.appendChild(text);
+          td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
+          var td = row.insertCell();
+          var text = document.createtextNode(event.description);
+          td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
         }
       }
     }
@@ -27,8 +55,8 @@ block content
   table#events
     thead
       tr
-        th
-        th
+        th meets
+        th description
     tbody
       tr#default
         td no meets anytime soon!

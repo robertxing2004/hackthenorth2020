@@ -1,0 +1,22 @@
+extends layout
+
+block scripts
+  script(src='/javascripts/availabilities.js')
+  script(src='/javascripts/calendar.js')
+  script.
+    window.onload = () => {
+      
+    }
+
+block content
+  link(rel='stylesheet', href='/stylesheets/event-override.css')
+  table#calendar
+    thead
+      tr
+          th mark your available days
+    tbody
+      each i in [1, 2, 3, 4, 5]
+        tr
+          each j in [1, 2, 3, 4, 5, 6, 7]
+            td
+  

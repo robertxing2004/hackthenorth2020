@@ -27,6 +27,18 @@ router.post('/group', function(req, res, next) {
   }
 });
 
+router.post('/event', function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    res.render('event', {
+      userid: req.session.userid,
+      eventname: req.body.eventname,
+      eventdescription: req.body.eventdescription,
+      eventid: req.body.eventid
+    });
+  }
+});
+
 router.all('/login', function(req, res, next) {
   res.redirect(`https://github.com/login/oauth/authorize?client_id=${properties.githubClientID}&scope=user`);
 });
