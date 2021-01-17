@@ -6,3 +6,15 @@ h1 {
 button {
   margin-right: 25px;
 }
+
+div input[type='date'] {
+  font-family: 'Spartan', 'sans serif';
+  font-weight: bold;
+  font-size: 15px;
+  background-color: #eaebed;
+  color: #006090;
+  border: 1px solid #006090;
+  border-radius: 7px;
+  padding: 5px;
+  margin: 15px;
+}
