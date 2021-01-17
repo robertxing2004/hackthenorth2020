@@ -40,6 +40,6 @@ tbody tr:hover {
   cursor: pointer;
 }
 
-#availableUsers {
+ul {
   list-style-type: none;
 }

@@ -181,13 +181,13 @@ router.post('/getgroupusers', async function(req, res, next) {
         `SELECT * FROM group_user WHERE groupid=$1;`,
         [req.body.groupid]
         );
-      console.log(query.rows);
       if (query.rowCount === 0) throw {message: "No users found!"};
       let users = [];
       for (i of query.rows) {
-        let u = await client.query(
+        let u = (await client.query(
           'SELECT * FROM users WHERE id=$1 LIMIT 1;', [i.userid]
-        ).rows[0];
+        )).rows[0];
+        console.log(u);
         users.push(u);
       }
       await client.release();

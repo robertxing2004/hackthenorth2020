@@ -108,8 +108,13 @@ block scripts
         }
       }
       
-      var groupMembers = await getGroupUsers(groupid);
-      console.log(groupMembers);
+      var members = await getGroupUsers(groupid);
+      var groupMembers = document.getElementById('groupMembers');
+      for (m of members) {
+        let li = document.createElement('li');
+        li.appendChild(document.createTextNode(m.name));
+        groupMembers.appendChild(li);
+      }
       
       var eventModal = document.getElementById('createNewEventModal');
       var eventBtn = document.getElementById('createNewEventBtn');
