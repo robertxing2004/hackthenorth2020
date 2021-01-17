@@ -3,12 +3,18 @@ extends layout
 block scripts
   script(src='/javascripts/availabilities.js')
   script(src='/javascripts/calendar.js')
-  script let eventid = #{eventid};
-  script let eventname = #{eventname};
-  script let eventdescription = #{eventdescription};
+  script let userid = "#{userid}";
+  script let eventid = "#{eventid}";
+  script let eventname = "#{eventname}";
+  script let eventdescription = "#{eventdescription}";
+  script let start = "#{start}";
+  script let num = #{num};
   script.
-    window.onload = () => {
-      
+    window.onload = async () => {
+      let availabilities = await getAvailabilities(eventid);
+      let available = checkAvailability(availabilities);
+      let useravailable = getUserAvailabilities(availabilities, userid);
+      loadCalendarAvailabilities(start, available, useravailable, num, eventid);
     }
 
 block content

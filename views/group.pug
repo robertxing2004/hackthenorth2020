@@ -4,6 +4,7 @@ block scripts
   script(src='/javascripts/events.js')
   script let groupid = #{groupid};
   script let groupname = "#{groupname}";
+  script let groupnum = #{groupnum};
   script.
     async function sendData() {
       let data = document.getElementById('createNewEvent').getElementsByTagName('input');
@@ -38,7 +39,7 @@ block scripts
       }
     }
 
-    function sendEvent(eventId, eventName, eventDescription) {
+    function sendEvent(eventId, eventName, eventDescription, startDate) {
       let form = document.createElement('form');
       form.method = 'POST';
       form.action = '/users/event';
@@ -56,9 +57,19 @@ block scripts
       eventdescription.name = 'eventdescription';
       eventdescription.value = eventDescription;
 
+      let start = document.createElement('input');
+      start.name = 'start';
+      start.value = startDate;
+
+      let num = document.createElement('input');
+      num.name = 'num';
+      num.value = groupnum;
+
       form.appendChild(eventid);
       form.appendChild(eventname);
       form.appendChild(eventdescription);
+      form.appendChild(start);
+      form.appendChild(num);
       document.body.appendChild(form);
       form.submit();
     }
@@ -74,12 +85,18 @@ block scripts
           var td = row.insertCell();
           var text = document.createTextNode(event.name);
           td.appendChild(text);
-          td.setAttribute('onclick', 'sendEvent("' + event.id + '","' + event.name + '","' + event.description + '")');
+          td.setAttribute(
+            'onclick',
+            'sendEvent("' + event.id + '","' + event.name + '","' + event.description + '","' + event.start + '")'
+            );
           
           td = row.insertCell();
           text = document.createTextNode(event.description);
-          td.setAttribute('onclick', 'sendEvent("' + event.id + '","' + event.name + '","' + event.description + '")');
           td.appendChild(text);
+          td.setAttribute(
+            'onclick',
+            'sendEvent("' + event.id + '","' + event.name + '","' + event.description + '","' + event.start + '")'
+            );
         }
       }
       

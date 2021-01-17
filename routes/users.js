@@ -23,7 +23,8 @@ router.post('/group', function(req, res, next) {
     res.render('group', {
       userid: req.session.userid,
       groupname: req.body.groupname,
-      groupid: req.body.groupid
+      groupid: req.body.groupid,
+      groupnum: req.body.groupnum
     });
   }
 });
@@ -35,7 +36,9 @@ router.post('/event', function(req, res, next) {
       userid: req.session.userid,
       eventname: req.body.eventname,
       eventdescription: req.body.eventdescription,
-      eventid: req.body.eventid
+      eventid: req.body.eventid,
+      start: req.body.start,
+      num: req.body.num
     });
   }
 });
