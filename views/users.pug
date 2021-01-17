@@ -5,7 +5,10 @@ block scripts
   script.
     function sendData() {
       let data = document.getElementById('createNewGroup').getElementsByTagName('input');
-      if (data[0].value) createGroup(data[0].value);
+      if (data[0].value) {
+        let res = createGroup(data[0].value);
+        alert(res);
+      }
     }
 
     function sendGroup(groupId, groupName) {

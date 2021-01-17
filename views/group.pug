@@ -4,6 +4,13 @@ block scripts
   script(src='/javascripts/events.js')
   script let groupid = #{groupid};
   script.
+    function sendData() {
+      let data = document.getElementById('createNewEvent').getElementsByTagName('input');
+      if (data[0].value && data[1].value) {
+        let res = createEvent(data[0].value, data[1].value, groupid, data[2].value);
+      }
+    }
+
     function sendEvent(eventId, eventName, eventDescription) {
       let form = document.createElement('form');
       form.method = 'POST';
@@ -61,8 +68,8 @@ block scripts
 
 block content
   link(rel='stylesheet', href='/stylesheets/group-override.css')
-  h2= group.name
-  button#myBtn create group
+  h2= groupname
+  button#myBtn create event
     div#myModal(class='modal')
       div(class='modal-content')
         form#createNewEvent(onsubmit='sendData()')
