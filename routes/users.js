@@ -13,11 +13,11 @@ router.get('/', function(req, res, next) {
   }
 });
 
-router.get('/myevents', function(req, res, next) {
+router.get('/group', function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
     if (!req.body.groupid) throw {message: "you forgot about this!"};
-    res.render('myevents', {
+    res.render('group', {
       userid: req.session.userid
     });
   }
@@ -146,7 +146,33 @@ router.get('/getgroups', async function(req, res, next) {
 });*/
 
 router.post('/deletegroup', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      let query = await client.query(
+        'SELECT * FROM group_user WHERE userid=$1 AND groupid=$2 LIMIT 1;',
+        [req.session.userid, req.body.groupid]
+        );
+      if (query.rowCount === 0) throw {message: "Group not found!"};
+      await client.query('DELETE FROM groups WHERE id=$1;', [req.body.groupid]);
+      await client.query('DELETE FROM group_user WHERE groupid=$1', [req.body.groupid]);
 
+      query = await client.query(
+        'SELECT * FROM events WHERE groupid=$1',
+        [req.body.groupid]
+      );
+      for (evt of query.rows) {
+        await client.query('DELETE FROM availabilities WHERE eventid=$1', [evt.id]);
+        await client.query('DELETE FROM events WHERE id=$1', [evt.id]);
+      }
+      res.send({message: 'Deleted group!'});
+    }
+    catch(err) {
+      console.log(err);
+      res.send(err);
+    }
+  }
 }); // TODO: implement this
 
 router.post('/addtogroup', async function(req, res, next) {

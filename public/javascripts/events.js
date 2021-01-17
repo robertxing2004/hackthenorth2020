@@ -14,9 +14,8 @@ async function createEvent(eventName, eventDescription, groupId, start) {
             })
         }
     )).json();
-    console.log(res.message);
-    alert(res.message);
     location.reload();
+    return res.message;
 }
 
 async function getEvents(groupId) {
