@@ -3,6 +3,31 @@ extends layout
 block scripts
   script(src='/javascripts/groups.js')
   script.
+    function sendData() {
+      let data = document.getElementById('createNewGroup').getElementsByTagName('input');
+      if (data[0].value) createGroup(data[0].value);
+    }
+
+    function sendGroup(groupId, groupName) {
+      let form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/users/group';
+      form.style.display = 'none';
+
+      let groupid = document.createElement('input');
+      groupid.name = 'groupid';
+      groupid.value = groupId;
+
+      let groupname = document.createElement('input');
+      groupname.name = 'groupname';
+      groupname.value = groupName;
+
+      form.appendChild(groupid);
+      form.appendChild(groupname);
+      document.body.appendChild(form);
+      form.submit();
+    }
+
     window.onload = async () => {
       let groups = await getGroups();
       console.log(groups);
@@ -10,10 +35,11 @@ block scripts
         var table = document.getElementById('groups').getElementsByTagName('tbody')[0];
         table.deleteRow(0);
         for (group of groups) if (group) {
-          var newRow = table.insertRow();
-          var newCell = newRow.insertCell();
-          var newText = document.createTextNode(group.name);
-          newCell.appendChild(newText);
+          var row = table.insertRow();
+          var td = row.insertCell();
+          var text = document.createTextNode(group.name);
+          td.appendChild(text);
+          td.setAttribute('onclick', 'sendGroup(' + group.id + ',"' + group.name + '")');
         }
       }
 
@@ -29,14 +55,12 @@ block scripts
       }
     }
 
-    function sendData() {
-      let data = document.getElementById('createNewGroup').getElementsByTagName('input');
-      if (data[0].value) createGroup(data[0].value);
-    }
-
 block content
   link(rel='stylesheet', href='/stylesheets/users-override.css')
-  h1 profile
+  if username
+    h1= 'welcome, ' + username
+  else
+    h1= 'welcome, ' + userid
   h2 my groups
   button#myBtn create group
     div#myModal(class='modal')
@@ -51,7 +75,6 @@ block content
   table#groups
     thead
       tr
-        th
         th
     tbody
       tr#default

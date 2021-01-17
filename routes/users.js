@@ -9,16 +9,20 @@ var pool = require('../db');
 router.get('/', function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
-    res.render('users');
+    res.render('users', {
+      username: req.session.username,
+      userid: req.session.userid
+    });
   }
 });
 
-router.get('/group', function(req, res, next) {
+router.post('/group', function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
-    if (!req.body.groupid) throw {message: "you forgot about this!"};
     res.render('group', {
-      userid: req.session.userid
+      userid: req.session.userid,
+      groupname: req.body.groupname,
+      groupid: req.body.groupid
     });
   }
 });
@@ -42,6 +46,7 @@ router.get('/confirmlogin', function(req, res, next) {
   }).
   then(async data => {
     req.session.userid = data.login;
+    req.session.username = data.name;
     let client = await pool.connect();
     let query = await client.query('SELECT * FROM users WHERE id=$1 LIMIT 1;', [data.login]);
     if (query.rowCount === 0) await client.query('INSERT INTO users(id, name) VALUES ($1, $2);', [data.login, data.name]);
