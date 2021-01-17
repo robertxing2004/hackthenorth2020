@@ -3,6 +3,7 @@ extends layout
 block scripts
   script(src='/javascripts/events.js')
   script let groupid = #{groupid};
+  script let groupname = "#{groupname}";
   script.
     async function sendData() {
       let data = document.getElementById('createNewEvent').getElementsByTagName('input');
@@ -13,12 +14,27 @@ block scripts
       }
     }
 
+    async function addUser(userid) {
+      let res = await addToGroup(userid, groupid, groupname);
+      location.reload();
+      alert(res);
+    }
+
     async function search() {
       let data = document.getElementById('inviteUser').getElementsByTagName('input');
       if (data[0].value) {
-        console.log(data[0].value)
         let res = await searchUsers(data[0].value);
-        console.log(res);
+        let list = document.getElementById('availableUsers');
+        list.innerHTML = '';
+        for (user of res) {
+          let li = document.createElement('li');
+          let button = document.createElement('button');
+          if (user.name) button.appendChild(document.createTextNode(user.name));
+          else button.appendChild(document.createTextNode(user.id));
+          button.setAttribute('onclick', 'addUser("' + user.id + '")');
+          li.appendChild(button);
+          list.appendChild(li);
+        }
       }
     }
 
@@ -58,11 +74,11 @@ block scripts
           var td = row.insertCell();
           var text = document.createTextNode(event.name);
           td.appendChild(text);
-          td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
+          td.setAttribute('onclick', 'sendEvent("' + event.id + '","' + event.name + '","' + event.description + '")');
           
           td = row.insertCell();
           text = document.createTextNode(event.description);
-          td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
+          td.setAttribute('onclick', 'sendEvent("' + event.id + '","' + event.name + '","' + event.description + '")');
           td.appendChild(text);
         }
       }

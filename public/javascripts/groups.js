@@ -24,7 +24,6 @@ async function getGroups() {
             }
         }
     )).json();
-    console.log(res);
     return res;
 }
 
@@ -38,24 +37,6 @@ async function deleteGroup(groupId) {
             },
             body: JSON.stringify({
                 groupid: groupId
-            })
-        }
-    )).json();
-    return res.message;
-}
-
-async function addToGroup(userId, groupId, groupName) {
-    let res = await (await fetch(
-        '/users/addtogroup',
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userid: userId,
-                groupid: groupId,
-                groupname: groupName
             })
         }
     )).json();
