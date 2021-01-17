@@ -1,3 +1,19 @@
+async function searchUsers(search) {
+    let res = await (await fetch(
+        '/users/searchusers',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                search: search
+            })
+        }
+    )).json();
+    return res;
+}
+
 async function createEvent(eventName, eventDescription, groupId, start) {
     let res = await (await fetch(
         '/users/createevent',
@@ -14,7 +30,6 @@ async function createEvent(eventName, eventDescription, groupId, start) {
             })
         }
     )).json();
-    alert(res.message); //how to make alert after page reload ??
     return res.message;
 }
 

@@ -7,8 +7,8 @@ block scripts
       let data = document.getElementById('createNewGroup').getElementsByTagName('input');
       if (data[0].value) {
         let res = await createGroup(data[0].value);
-        alert(res);
         location.reload();
+        alert(res);
       }
     }
 
@@ -68,7 +68,7 @@ block content
   button#myBtn create group
     div#myModal(class='modal')
       div(class='modal-content')
-        form#createNewGroup(onsubmit='sendData()')
+        form#createNewGroup(action="javascript:void(0);" onsubmit='sendData()')
           div#groupname
             label(for='groupname') name your new group!
             input(type='text', name='groupname', required='required')

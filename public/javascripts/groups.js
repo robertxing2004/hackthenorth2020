@@ -1,19 +1,3 @@
-async function searchUsers(search) {
-    let res = await (await fetch(
-        '/users/searchusers',
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                search: search
-            })
-        }
-    )).json();
-    return res;
-}
-
 async function createGroup(groupName) {
     let res = await (await fetch(
         '/users/creategroup',

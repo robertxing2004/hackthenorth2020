@@ -8,8 +8,17 @@ block scripts
       let data = document.getElementById('createNewEvent').getElementsByTagName('input');
       if (data[0].value && data[1].value) {
         let res = await createEvent(data[0].value, data[1].value, groupid, data[2].value);
-        alert(res);
         location.reload();
+        alert(res);
+      }
+    }
+
+    async function search() {
+      let data = document.getElementById('inviteUser').getElementsByTagName('input');
+      if (data[0].value) {
+        console.log(data[0].value)
+        let res = await searchUsers(data[0].value);
+        console.log(res);
       }
     }
 
@@ -84,7 +93,7 @@ block content
   button#createNewEventBtn create event
     div#createNewEventModal(class='modal')
       div(class='modal-content')
-        form#createNewEvent(onsubmit='sendData()')
+        form#createNewEvent(action="javascript:void(0);" onsubmit='sendData()')
           div#eventname
             label(for='eventname') name your new event!
             input(type='text', name='eventname', required='required')
@@ -94,13 +103,17 @@ block content
           div#eventdate
             label(for='eventdate') what date are you planning for? (optional)
             input(type='date', name='eventdate')
-          div#submit
+          div.submit
             input(type='submit', value='create event')
   button#inviteUserBtn invite user
     div#inviteUserModal(class='modal')
       div(class='modal-content')
-        form#inviteUser(onsubmit='sendData()')
-          div#availableUsers
+        form#inviteUser(action="javascript:void(0);" onsubmit='search()')
+          label(for='searchtext') search for users
+          input(type='text', name='searchtext')
+          div.submit
+            input(type='submit', value='search')
+          ul#availableUsers
   table#events
     thead
       tr
