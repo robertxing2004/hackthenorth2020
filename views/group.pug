@@ -56,24 +56,34 @@ block scripts
           td.appendChild(text);
         }
       }
-
-      var modal = document.getElementById('myModal');
-      var btn = document.getElementById('myBtn');
-      btn.onclick = function() {
-        modal.style.display = 'block';
+      
+      var eventModal = document.getElementById('createNewEventModal');
+      var eventBtn = document.getElementById('createNewEventButton');
+      var userModal = document.getElementById('inviteUserModal');
+      var userBtn = document.getElementById('inviteUserBtn');
+      eventBtn.onclick = function() {
+        eventModal.style.display = 'block';
       }
       window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = 'none';
+        if (event.target == eventModal) {
+          eventModal.style.display = 'none';
+        }
+      }
+      userBtn.onclick = function() {
+        userModal.style.display = 'block';
+      }
+      window.onclick = function() {
+        if (event.target == userModal) {
+          userModal.style.display = 'none';
         }
       }
     }
 
 block content
   link(rel='stylesheet', href='/stylesheets/group-override.css')
-  h2= groupname
-  button#myBtn create event
-    div#myModal(class='modal')
+  h2= 'upcoming events with ' + groupname
+  button#createNewEventBtn create event
+    div#createNewEventModal(class='modal')
       div(class='modal-content')
         form#createNewEvent(onsubmit='sendData()')
           div#eventname
@@ -87,11 +97,16 @@ block content
             input(type='date', name='eventdate')
           div#submit
             input(type='submit', value='create event')
+  button#inviteUserBtn invite user
+    div#inviteUserModal(class='modal')
+      div(class='modal-content')
+        form#inviteUser(onsubmit='sendData()')
+          div#availableUsers
   table#events
     thead
       tr
-        th meets
-        th description
+        th 
+        th 
     tbody
       tr#default
         td no meets anytime soon!
