@@ -47,11 +47,36 @@ block scripts
           td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
         }
       }
+      var modal = document.getElementById('myModal');
+      var btn = document.getElementById('myBtn');
+      btn.onclick = function() {
+        modal.style.display = 'block';
+      }
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      }
     }
 
 block content
-  link(rel='stylesheet', href='/stylesheets/groups-override.css')
-  h2= groupname
+  link(rel='stylesheet', href='/stylesheets/group-override.css')
+  h2= group.name
+  button#myBtn create group
+    div#myModal(class='modal')
+      div(class='modal-content')
+        form#createNewEvent(onsubmit='sendData()')
+          div#eventname
+            label(for='eventname') name your new event!
+            input(type='text', name='eventname', required='required')
+          div#eventdescription
+            label(for='eventdescription') describe your event!
+            input(type='text', name='eventdescription', required='required')
+          div#eventdate
+            label(for='eventdate') what date are you planning for? (optional)
+            input(type='text', name='eventdate')
+          div#submit
+            input(type='submit', value='create event')
   table#events
     thead
       tr
