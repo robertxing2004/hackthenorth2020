@@ -41,21 +41,20 @@ block scripts
       var events = await getEvents(groupid);
       console.log(events);
       if (events.length > 0) {
-        var table = document.getElementById('events').getElementByTagName('tbody')[0];
-        table.deleteRow(0);
+        var table = document.getElementById('events').getElementsByTagName('tbody')[0];
         table.deleteRow(0);
         for (event of events) {
           var row = table.insertRow();
           var td = row.insertCell();
-          var text = document.createtextNode(event.name);
+          var text = document.createTextNode(event.name);
           td.appendChild(text);
           td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
           var td = row.insertCell();
-          var text = document.createtextNode(event.description);
+          var text = document.createTextNode(event.description);
           td.setAttribute('onclick', 'sendEvent(' + event.id + ',"' + event.name + '","' + event.description + '")');
         }
       }
-      
+
       var modal = document.getElementById('myModal');
       var btn = document.getElementById('myBtn');
       btn.onclick = function() {
@@ -83,7 +82,7 @@ block content
             input(type='text', name='eventdescription', required='required')
           div#eventdate
             label(for='eventdate') what date are you planning for? (optional)
-            input(type='text', name='eventdate')
+            input(type='date', name='eventdate')
           div#submit
             input(type='submit', value='create event')
   table#events
@@ -93,5 +92,5 @@ block content
         th description
     tbody
       tr#default
-        td no meets anytime soon! miss each other?
-        td 
+        td no meets anytime soon!
+        td miss each other?

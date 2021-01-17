@@ -226,6 +226,7 @@ Event endpoints
 router.post('/createevent', async function(req, res, next) {
   if (!req.session.userid) res.redirect('/users/login');
   else {
+    console.log('**********\n\ncreating event\n\n***********');
     try {
       let client = await pool.connect();
       let query = await client.query(

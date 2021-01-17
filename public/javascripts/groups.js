@@ -12,7 +12,7 @@ async function createGroup(groupName) {
         }
     )).json();
     location.reload();
-    return res.message;
+    alert(res.message);
 }
 
 async function getGroups() {
