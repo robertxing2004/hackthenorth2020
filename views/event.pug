@@ -10,12 +10,11 @@ block scripts
   script let start = "#{start}";
   script let num = #{num};
   script.
-    window.onload = async () => {
+    async function loadCalendar() {
       let availabilities = await getAvailabilities(eventid);
       let available = checkAvailability(availabilities);
       let useravailable = getUserAvailabilities(availabilities, userid);
       loadCalendarAvailabilities(start, available, useravailable, num, eventid);
-
       let tds = document.getElementById('calendar').getElementsByTagName('td');
       for (td of tds) {
         let p = td.getAttribute('data-percentage');
@@ -25,6 +24,10 @@ block scripts
           if (td.classList.contains('userselected')) td.innerHTML += '✓';
         }
       }
+    }
+
+    window.onload = async () => {
+      await loadCalendar();
     }
 
 block content
