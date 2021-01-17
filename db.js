@@ -4,9 +4,9 @@ var properties = require('./properties');
 const { timeStamp } = require('console');
 
 var config = {
-    user: 'hackathon',
-    host : 'free-tier.gcp-us-central1.cockroachlabs.cloud',
-    database: 'silly-camel-212.defaultdb',
+    user: 'user',
+    host: 'trusty-lemur-8c3.gcp-northamerica-northeast1.cockroachlabs.cloud',
+    database: 'defaultdb',
     password: properties.pgPassword,
     port: 26257,
     ssl: {
@@ -17,6 +17,7 @@ var config = {
 var pool = new Pool(config);
 async function test() {
     let client = await pool.connect();
+    await client.query('SET search_path TO scott;');
     let query = await client.query('SELECT * FROM users;');
     console.log(query.rows);
     await client.release();

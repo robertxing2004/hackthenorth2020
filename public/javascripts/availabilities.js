@@ -22,7 +22,7 @@ async function toggleAvailability(eventId, delta) {
         }
     )).json();
     location.reload();
-    return res.message;
+    alert(res.message);
 }
 
 async function getAvailabilities(eventId) {

@@ -64,6 +64,7 @@ router.get('/confirmlogin', function(req, res, next) {
     req.session.userid = data.login;
     req.session.username = data.name;
     let client = await pool.connect();
+    await client.query('SET search_path TO scott;');
     let query = await client.query('SELECT * FROM users WHERE id=$1 LIMIT 1;', [data.login]);
     if (query.rowCount === 0) await client.query('INSERT INTO users(id, name) VALUES ($1, $2);', [data.login, data.name]);
     await client.release();
@@ -96,12 +97,14 @@ router.post('/searchusers', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         `SELECT * FROM users WHERE id LIKE '%' || $1 || '%' OR name LIKE '%' || $1 || '%';`,
         [req.body.search]
         );
       console.log(query.rows);
       if (query.rowCount === 0) throw {message: "No users found!"};
+      await client.release();
       res.send(query.rows);
     }
     catch(err) {
@@ -121,6 +124,7 @@ router.post('/creategroup', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         'SELECT * FROM group_user WHERE userid=$1 AND groupname=$2 LIMIT 1;',
         [req.session.userid, req.body.groupname] //note this
@@ -146,6 +150,7 @@ router.get('/getgroups', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         'SELECT * FROM group_user WHERE userid=$1;',
         [req.session.userid]
@@ -156,6 +161,7 @@ router.get('/getgroups', async function(req, res, next) {
         let group = (await client.query('SELECT * FROM groups WHERE id=$1 LIMIT 1;', [g_u.groupid])).rows[0];
         groups.push(group);
       }
+      await client.release();
       res.send(groups);
     }
     catch(err) {
@@ -170,6 +176,7 @@ router.post('/getgroupusers', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         `SELECT * FROM group_user WHERE groupid=$1;`,
         [req.body.groupid]
@@ -183,6 +190,7 @@ router.post('/getgroupusers', async function(req, res, next) {
         ).rows[0];
         users.push(u);
       }
+      await client.release();
       res.send(users);
     }
     catch(err) {
@@ -223,6 +231,7 @@ router.post('/deletegroup', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         'SELECT * FROM group_user WHERE userid=$1 AND groupid=$2 LIMIT 1;',
         [req.session.userid, req.body.groupid]
@@ -239,6 +248,7 @@ router.post('/deletegroup', async function(req, res, next) {
         await client.query('DELETE FROM availabilities WHERE eventid=$1', [evt.id]);
         await client.query('DELETE FROM events WHERE id=$1', [evt.id]);
       }
+      await client.release();
       res.send({message: 'Deleted group!'});
     }
     catch(err) {
@@ -253,6 +263,7 @@ router.post('/addtogroup', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         'SELECT * FROM group_user WHERE groupid=$1 AND userid=$2 LIMIT 1;',
         [req.body.groupid, req.body.userid] //note this
@@ -285,6 +296,7 @@ router.post('/createevent', async function(req, res, next) {
     console.log('**********\n\ncreating event\n\n***********');
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         'SELECT * FROM events WHERE groupid=$1 AND name=$2 LIMIT 1;',
         [req.body.groupid, req.body.eventname] // note this
@@ -310,11 +322,13 @@ router.post('/getevents', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         'SELECT * FROM events WHERE groupid=$1;',
         [req.body.groupid]
         );
       if (query.rowCount === 0) throw {message: "No events found for this group!"};
+      await client.release();
       res.send(query.rows);
     }
     catch(err) {
@@ -365,6 +379,7 @@ router.post('/toggleavailability', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         'SELECT * FROM availabilities WHERE userid=$1 AND eventid=$2 AND delta=$3 LIMIT 1;',
         [req.session.userid, req.body.eventid, req.body.delta] // note this
@@ -374,6 +389,7 @@ router.post('/toggleavailability', async function(req, res, next) {
           'DELETE FROM availabilities WHERE userid=$1 AND eventid=$2 AND delta=$3;',
           [req.session.userid, req.body.eventid, req.body.delta]
           );
+        await client.release();
         res.send({message: "Removed availability!"});
       }
       else {
@@ -381,9 +397,9 @@ router.post('/toggleavailability', async function(req, res, next) {
           'INSERT INTO availabilities(userid, eventid, delta) VALUES($1, $2, $3);',
           [req.session.userid, req.body.eventid, req.body.delta]
           );
+        await client.release();
         res.send({message: "Marked day as available!"});
       }
-      await client.release();
     }
     catch(err) {
       console.log(err);
@@ -397,11 +413,13 @@ router.post('/getavailabilities', async function(req, res, next) {
   else {
     try {
       let client = await pool.connect();
+      await client.query('SET search_path TO scott;');
       let query = await client.query(
         'SELECT * FROM availabilities WHERE eventid=$1;',
         [req.body.eventid]
         );
       if (query.rowCount === 0) throw {message: "No availabilities for this event!"};
+      await client.release();
       res.send(query.rows);
     }
     catch(err) {
