@@ -32,6 +32,22 @@ async function addToGroup(userId, groupId, groupName) {
     return res.message;
 }
 
+async function getGroupUsers(groupId) {
+    let res = await (await fetch(
+        '/users/getgroupusers',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                groupid: groupId
+          })
+        }
+    )).json();
+    return res;
+}
+
 async function createEvent(eventName, eventDescription, groupId, start) {
     let res = await (await fetch(
         '/users/createevent',
