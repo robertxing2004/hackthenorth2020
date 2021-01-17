@@ -84,6 +84,28 @@ router.get('/confirmlogin', function(req, res, next) {
 
 
 /*
+User endpoints
+*/
+
+router.post('/searchusers', async function(req, res, next) {
+  if (!req.session.userid) res.redirect('/users/login');
+  else {
+    try {
+      let client = await pool.connect();
+      let query = await client.query('SELECT * FROM users WHERE id LIKE \'%$1%\' OR name LIKE \'%$1%\';');
+      console.log(query.rows);
+      if (query.rowCount === 0) throw {message: "No users found!"};
+      res.send(query.rows);
+    }
+    catch(err) {
+      console.log(err);
+      res.send([]);
+    }
+  }
+});
+
+
+/*
 Group endpoints
 */
 

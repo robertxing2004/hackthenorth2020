@@ -8,6 +8,7 @@ block scripts
       if (data[0].value) {
         let res = await createGroup(data[0].value);
         alert(res);
+        location.reload();
       }
     }
 

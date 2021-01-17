@@ -1,3 +1,19 @@
+async function searchUsers(search) {
+    let res = await (await fetch(
+        '/users/searchusers',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                search: search
+            })
+        }
+    )).json();
+    return res;
+}
+
 async function createGroup(groupName) {
     let res = await (await fetch(
         '/users/creategroup',
@@ -11,8 +27,7 @@ async function createGroup(groupName) {
             })
         }
     )).json();
-    location.reload();
-    alert(res.message);
+    return res.message;
 }
 
 async function getGroups() {
@@ -42,7 +57,6 @@ async function deleteGroup(groupId) {
             })
         }
     )).json();
-    location.reload();
     return res.message;
 }
 
@@ -61,6 +75,5 @@ async function addToGroup(userId, groupId, groupName) {
             })
         }
     )).json();
-    location.reload();
     return res.message;
 }
