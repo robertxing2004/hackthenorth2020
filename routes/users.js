@@ -241,7 +241,8 @@ router.post('/deletegroup', async function(req, res, next) {
         'DELETE FROM group_user WHERE userid=$1 AND groupid=$2 LIMIT 1',
         [req.session.userid, req.body.groupid]
         );
-
+      
+      console.log(query.rows);
       if (query.rowCount <= 2) {
         await client.query('DELETE FROM groups WHERE id=$1;', [req.body.groupid]);
         query = await client.query(
