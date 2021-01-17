@@ -2,7 +2,8 @@ extends layout
 
 block scripts
   script(src='/javascripts/events.js')
-  script var userid = #{userid};
+  script let userid = '#{userid};'
+  script let groupid = '#{groupid};'
   script.
     window.onload = () => {
       var events = getEvents();
