@@ -384,7 +384,7 @@ router.post('/deleteevent', async function(req, res, next) {
 
       query = await client.query(
         'SELECT * FROM group_user WHERE groupid=$1 AND userid=$2',
-        [query.rows[0].id, req.session.userid]
+        [query.rows[0].groupid, req.session.userid]
         );
       if (query.rowCount === 0) throw {message: "Not part of this group!"};
       await client.query('DELETE FROM events WHERE id=$1;', [req.body.eventid]);
